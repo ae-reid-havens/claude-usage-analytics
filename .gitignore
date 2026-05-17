@@ -33,3 +33,6 @@ yarn.lock
 npm-debug.log*
 __pycache__/
 /.playwright-mcp
+
+# Claude Code per-machine permission allowlist (accumulates path-specific entries)
+.claude/settings.local.json
