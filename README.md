@@ -1,6 +1,6 @@
 # Claude Usage Analytics
 
-![Version](https://img.shields.io/badge/version-1.1.11-blue)
+![Version](https://img.shields.io/badge/version-1.1.12-blue)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.95%2B-007ACC)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
@@ -280,7 +280,7 @@ code --install-extension analyticendeavors.claude-usage-analytics
 Download the latest `.vsix` from the [Releases](https://github.com/analyticendeavors/claude-usage-analytics/releases) page and install manually:
 
 ```bash
-code --install-extension claude-usage-analytics-1.1.11.vsix
+code --install-extension claude-usage-analytics-1.1.12.vsix
 ```
 
 ---
@@ -380,7 +380,7 @@ Ensure Claude Code CLI is installed and you've used it at least once. The extens
 
 ### How accurate are the cost calculations?
 Costs use model-specific pricing from [modelPricing.json](modelPricing.json):
-- **Claude Opus 4.7 / 4.6 / 4.5**: $5/1M input, $25/1M output, $6.25/1M cache write, $0.50/1M cache read
+- **Claude Opus 4.8 / 4.7 / 4.6 / 4.5**: $5/1M input, $25/1M output, $6.25/1M cache write, $0.50/1M cache read
 - **Claude Opus 4.1 / 4 / 3**: $15/1M input, $75/1M output, $18.75/1M cache write, $1.50/1M cache read
 - **Claude Sonnet (all versions)**: $3/1M input, $15/1M output, $3.75/1M cache write, $0.30/1M cache read
 - **Claude Haiku 4.5**: $1/1M input, $5/1M output, $1.25/1M cache write, $0.10/1M cache read
@@ -447,6 +447,9 @@ This extension is free and always will be. Source code is not publicly distribut
 ## Changelog
 
 Full release history is in [CHANGELOG.md](CHANGELOG.md). Latest highlights:
+
+### v1.1.12 (2026-06-01)
+- **Opus 4.8 pricing** added at $5/$25 per MTok (verified against Anthropic docs); resolves to the new Opus tier in cost calculations.
 
 ### v1.1.11 (2026-05-06)
 - **Opus 4.7 pricing** added at $5/$25 per MTok (verified against Anthropic docs).

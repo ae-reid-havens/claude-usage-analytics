@@ -2,6 +2,11 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
+## [1.1.12] - 2026-06-01
+
+### Added
+- **Opus 4.8 pricing** - Added `claude-opus-4-8` to model pricing table at $5/$25 per MTok (verified against Anthropic pricing docs). `getPricingForModel()` (in `dataProvider.ts` and `database.ts`) now matches `4-8` alongside `4-5`/`4-6`/`4-7` for the new Opus pricing tier.
+
 ## [1.1.11] - 2026-05-06
 
 ### Added
