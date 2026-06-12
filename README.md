@@ -277,7 +277,7 @@ code --install-extension analyticendeavors.claude-usage-analytics
 
 ### Option 2: From .vsix
 
-Download the latest `.vsix` from the [Releases](https://github.com/analyticendeavors/claude-usage-analytics/releases) page and install manually:
+Download the latest `.vsix` from the [Releases](https://github.com/AnalyticEndeavorsUser/claude-usage-analytics/releases) page and install manually:
 
 ```bash
 code --install-extension claude-usage-analytics-1.1.12.vsix
@@ -296,7 +296,7 @@ code --install-extension claude-usage-analytics-1.1.12.vsix
 
 ### Pre-requisites
 
-1. **Install Claude Code CLI**: Follow [Anthropic's installation guide](https://docs.anthropic.com/claude-code)
+1. **Install Claude Code CLI**: Follow [Anthropic's installation guide](https://code.claude.com/docs/en/setup)
 2. **Authenticate**: Run `claude auth login` to authenticate
 3. **Verify**: Run `claude --version` to confirm installation
 
@@ -380,6 +380,7 @@ Ensure Claude Code CLI is installed and you've used it at least once. The extens
 
 ### How accurate are the cost calculations?
 Costs use model-specific pricing from [modelPricing.json](modelPricing.json):
+- **Claude Fable 5 / Mythos 5**: $10/1M input, $50/1M output, $12.50/1M cache write, $1.00/1M cache read
 - **Claude Opus 4.8 / 4.7 / 4.6 / 4.5**: $5/1M input, $25/1M output, $6.25/1M cache write, $0.50/1M cache read
 - **Claude Opus 4.1 / 4 / 3**: $15/1M input, $75/1M output, $18.75/1M cache write, $1.50/1M cache read
 - **Claude Sonnet (all versions)**: $3/1M input, $15/1M output, $3.75/1M cache write, $0.30/1M cache read
@@ -440,7 +441,7 @@ Personality analysis requires conversation history in `~/.claude/projects/`. If 
 
 ## Contributing
 
-This extension is free and always will be. Source code is not publicly distributed to prevent unauthorized repackaging and resale. If you'd like to report a bug or request a feature, please use the [Issues](https://github.com/analyticendeavors/claude-usage-analytics/issues) page.
+This extension is free and always will be. Source code is not publicly distributed to prevent unauthorized repackaging and resale. If you'd like to report a bug or request a feature, please use the [Issues](https://github.com/AnalyticEndeavorsUser/claude-usage-analytics/issues) page.
 
 ---
 
@@ -476,7 +477,7 @@ MIT License with Commons Clause — see [LICENSE](LICENSE) for details.
 
 Free to use, modify, and distribute. Commercial sale or resale prohibited.
 
-Copyright (c) 2024-2025 Reid Havens / Analytic Endeavors
+Copyright (c) 2024-2026 Reid Havens / Analytic Endeavors
 
 ---
 

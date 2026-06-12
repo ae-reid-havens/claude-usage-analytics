@@ -2,6 +2,18 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
+## [Unreleased]
+
+### Added
+- **Claude Fable 5 / Mythos 5 pricing** - Added `claude-fable-5` and `claude-mythos-5` to the model pricing table at $10/$50 per MTok (verified against Anthropic pricing docs). Without an entry, Fable 5 usage fell through to the `default` Sonnet rate ($3/$15), undercosting by more than 3x. `getPricingForModel()` (in `dataProvider.ts` and `database.ts`) needs a matching `fable-5` / `mythos-5` branch in the next extension release.
+- **`claude-haiku-4-5` alias** - Added the non-dated Haiku 4.5 model ID alongside the dated `claude-haiku-4-5-20251001` entry so usage logged under the alias resolves to Haiku pricing instead of the Sonnet default.
+
+### Fixed
+- **CHANGELOG dates** - Corrected the 1.1.6 and 1.1.7 release dates from 2025 to 2026 (they shipped between 1.1.5 on 2025-12-30 and 1.1.8 on 2026-01-10).
+- **Repository links** - README Issues/Releases links now point at the canonical `AnalyticEndeavorsUser/claude-usage-analytics` instead of relying on GitHub's rename redirect from `analyticendeavors/`.
+- **Claude Code docs link** - Updated the installation guide link to the current docs home (`code.claude.com/docs`).
+- **Copyright years** - README and LICENSE updated to 2024-2026.
+
 ## [1.1.12] - 2026-06-01
 
 ### Added
@@ -47,12 +59,12 @@ All notable changes to the Claude Usage Analytics extension will be documented i
 ### Fixed
 - **"Scan failed: Command failed" error on Windows** - Fixed critical bug where `process.execPath` returns VS Code's `Code.exe` instead of Node.js in the extension host environment. The scan command now correctly uses `node` from the system PATH. This reverts the problematic v1.1.6 fix that caused the regression.
 
-## [1.1.7] - 2025-01-09
+## [1.1.7] - 2026-01-09
 
 ### Changed
 - **Footer link updated** - Replaced YouTube link with Donate link (Buy Me a Coffee) in dashboard footer
 
-## [1.1.6] - 2025-01-05
+## [1.1.6] - 2026-01-05
 
 ### Fixed
 - **"Spawn node ENOENT" error on install** - Fixed error that occurred when users didn't have Node.js in their system PATH. Extension now uses VSCode's bundled Node.js runtime (`process.execPath`) instead of relying on a global `node` command.
