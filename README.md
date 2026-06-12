@@ -388,6 +388,8 @@ Costs use model-specific pricing from [modelPricing.json](modelPricing.json):
 - **Claude Haiku 3.5**: $0.80/1M input, $4/1M output, $1/1M cache write, $0.08/1M cache read
 - **Claude Haiku 3**: $0.25/1M input, $1.25/1M output
 
+> [modelPricing.json](modelPricing.json) stores the base input/output rates; cache rates are derived from the input rate (1.25x for cache writes, 0.1x for cache reads).
+
 Today's cost is calculated in real-time from conversation files for maximum accuracy.
 
 ### Why does the subscription widget show "N/A"?
