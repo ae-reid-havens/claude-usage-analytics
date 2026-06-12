@@ -1,6 +1,6 @@
 # Claude Usage Analytics
 
-![Version](https://img.shields.io/badge/version-1.1.12-blue)
+![Version](https://img.shields.io/badge/version-1.1.13-blue)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.95%2B-007ACC)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
@@ -280,7 +280,7 @@ code --install-extension analyticendeavors.claude-usage-analytics
 Download the latest `.vsix` from the [Releases](https://github.com/AnalyticEndeavorsUser/claude-usage-analytics/releases) page and install manually:
 
 ```bash
-code --install-extension claude-usage-analytics-1.1.12.vsix
+code --install-extension claude-usage-analytics-1.1.13.vsix
 ```
 
 ---
@@ -450,6 +450,9 @@ This extension is free and always will be. Source code is not publicly distribut
 ## Changelog
 
 Full release history is in [CHANGELOG.md](CHANGELOG.md). Latest highlights:
+
+### v1.1.13 (2026-06-12)
+- **Claude Fable 5 / Mythos 5 pricing** added at $10/$50 per MTok (verified against Anthropic docs); previously fell through to the default Sonnet rate, undercosting by more than 3x. Also added the non-dated `claude-haiku-4-5` alias.
 
 ### v1.1.12 (2026-06-01)
 - **Opus 4.8 pricing** added at $5/$25 per MTok (verified against Anthropic docs); resolves to the new Opus tier in cost calculations.

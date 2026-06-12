@@ -2,10 +2,10 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
-## [Unreleased]
+## [1.1.13] - 2026-06-12
 
 ### Added
-- **Claude Fable 5 / Mythos 5 pricing** - Added `claude-fable-5` and `claude-mythos-5` to the model pricing table at $10/$50 per MTok (verified against Anthropic pricing docs). Without an entry, Fable 5 usage fell through to the `default` Sonnet rate ($3/$15), undercosting by more than 3x. `getPricingForModel()` (in `dataProvider.ts` and `database.ts`) needs a matching `fable-5` / `mythos-5` branch in the next extension release.
+- **Claude Fable 5 / Mythos 5 pricing** - Added `claude-fable-5` and `claude-mythos-5` to the model pricing table at $10/$50 per MTok (verified against Anthropic pricing docs). Previously Fable 5 usage fell through to the `default` Sonnet rate ($3/$15), undercosting by more than 3x. `getPricingForModel()` (in `dataProvider.ts` and `database.ts`) now resolves `fable-5` / `mythos-5` to the new tier.
 - **`claude-haiku-4-5` alias** - Added the non-dated Haiku 4.5 model ID alongside the dated `claude-haiku-4-5-20251001` entry so usage logged under the alias resolves to Haiku pricing instead of the Sonnet default.
 
 ### Fixed
