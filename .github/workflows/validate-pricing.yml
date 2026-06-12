@@ -1,0 +1,27 @@
+name: Validate model pricing
+
+on:
+  push:
+    paths:
+      - modelPricing.json
+  pull_request:
+    paths:
+      - modelPricing.json
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate modelPricing.json
+        run: |
+          # Valid JSON with a "default" fallback entry
+          jq -e 'has("default")' modelPricing.json
+          # Every entry has positive numeric input/output rates and output >= input
+          jq -e '
+            to_entries
+            | all(.value
+                | (.input | type == "number" and . > 0)
+                  and (.output | type == "number" and . > 0)
+                  and (.output >= .input))
+          ' modelPricing.json
