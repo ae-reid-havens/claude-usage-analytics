@@ -2,6 +2,14 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
+## [1.1.14] - 2026-07-08
+
+### Added
+- **Claude Sonnet 5 pricing** - Added `claude-sonnet-5` to the model pricing table at $2/$10 per MTok (introductory pricing verified against Anthropic pricing docs). `getPricingForModel()` (in `dataProvider.ts` and `database.ts`) now resolves `sonnet-5` via a dedicated `sonnet_5` tier that is checked **before** the generic `sonnet` branch — without it, `claude-sonnet-5` would match `sonnet` and be overcosted at $3/$15.
+
+### Note
+- **Sonnet 5 introductory pricing ends 2026-08-31.** On 2026-09-01 Sonnet 5 reverts to the standard $3/$15 (identical to the generic `sonnet` tier). At that point the temporary `sonnet_5` tier and its `sonnet-5` branch should be removed so it falls through to `sonnet`, and `modelPricing.json` updated to $3/$15. Resolves tools-watchlist issue #629.
+
 ## [1.1.13] - 2026-06-12
 
 ### Added

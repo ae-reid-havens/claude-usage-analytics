@@ -1,6 +1,6 @@
 # Claude Usage Analytics
 
-![Version](https://img.shields.io/badge/version-1.1.13-blue)
+![Version](https://img.shields.io/badge/version-1.1.14-blue)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.95%2B-007ACC)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
@@ -280,7 +280,7 @@ code --install-extension analyticendeavors.claude-usage-analytics
 Download the latest `.vsix` from the [Releases](https://github.com/AnalyticEndeavorsUser/claude-usage-analytics/releases) page and install manually:
 
 ```bash
-code --install-extension claude-usage-analytics-1.1.13.vsix
+code --install-extension claude-usage-analytics-1.1.14.vsix
 ```
 
 ---
@@ -383,7 +383,8 @@ Costs use model-specific pricing from [modelPricing.json](modelPricing.json):
 - **Claude Fable 5 / Mythos 5**: $10/1M input, $50/1M output, $12.50/1M cache write, $1.00/1M cache read
 - **Claude Opus 4.8 / 4.7 / 4.6 / 4.5**: $5/1M input, $25/1M output, $6.25/1M cache write, $0.50/1M cache read
 - **Claude Opus 4.1 / 4 / 3**: $15/1M input, $75/1M output, $18.75/1M cache write, $1.50/1M cache read
-- **Claude Sonnet (all versions)**: $3/1M input, $15/1M output, $3.75/1M cache write, $0.30/1M cache read
+- **Claude Sonnet 5**: $2/1M input, $10/1M output, $2.50/1M cache write, $0.20/1M cache read (introductory pricing through 2026-08-31; $3/$15 thereafter)
+- **Claude Sonnet 4.6 and earlier**: $3/1M input, $15/1M output, $3.75/1M cache write, $0.30/1M cache read
 - **Claude Haiku 4.5**: $1/1M input, $5/1M output, $1.25/1M cache write, $0.10/1M cache read
 - **Claude Haiku 3.5**: $0.80/1M input, $4/1M output, $1/1M cache write, $0.08/1M cache read
 - **Claude Haiku 3**: $0.25/1M input, $1.25/1M output
@@ -450,6 +451,9 @@ This extension is free and always will be. Source code is not publicly distribut
 ## Changelog
 
 Full release history is in [CHANGELOG.md](CHANGELOG.md). Latest highlights:
+
+### v1.1.14 (2026-07-08)
+- **Claude Sonnet 5 pricing** added at $2/$10 per MTok (introductory pricing through 2026-08-31; $3/$15 thereafter), matched ahead of the generic Sonnet tier so it isn't overcosted at $3/$15.
 
 ### v1.1.13 (2026-06-12)
 - **Claude Fable 5 / Mythos 5 pricing** added at $10/$50 per MTok (verified against Anthropic docs); previously fell through to the default Sonnet rate, undercosting by more than 3x. Also added the non-dated `claude-haiku-4-5` alias.
