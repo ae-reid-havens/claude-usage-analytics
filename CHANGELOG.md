@@ -2,6 +2,22 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
+## [1.1.15] - 2026-08-14
+
+### Added
+- **Claude Opus 5 pricing** - Added `claude-opus-5` to the model pricing table at $5/$25 per MTok (verified against Anthropic pricing docs). Cache rates for the shared `opus_new` tier are unchanged and still correct: $0.50/MTok cache read, $6.25/MTok 5-minute cache write.
+
+### Fixed
+- **Dashboard showed zero for everything** - `getUsageData()` returned an empty result set as soon as `~/.claude/stats-cache.json` was missing, and current Claude Code versions no longer write that file. The early return fired before the SQLite read and before the live-scan merge, so a fully populated `analytics.db` was never consulted. The stats-cache is now an optional enrichment source: when it is absent, daily history, model breakdown, date range, and today's figures are built from `analytics.db` and today's JSONL scan instead. The stats-cache path is unchanged for anyone still on a Claude Code version that writes it.
+- **Model breakdown from SQLite is more accurate than the cache estimate** - The SQLite fallback sums real per-type token counts from `model_usage` rather than applying the 30/10/50/10 input/output/cache-read/cache-write split the stats-cache path has to assume.
+- **Historical day costs were shown at the rates in effect when they were recorded** - Days merged in from SQLite now prefer a cost recomputed from stored token counts at current prices, matching how cache-sourced days were already handled. Without this, a pricing correction never reached days already written to the database.
+- **Opus 5 was labelled "Opus" in the model breakdown** - `formatModelName()` extracted a MAJOR-MINOR pair, which major-only ids such as `claude-opus-5`, `claude-sonnet-5`, and `claude-fable-5` do not have, so they collapsed to a bare family name. It now falls back to a 1-2 digit version immediately after the family name; the length bound keeps a trailing date stamp (`claude-3-opus-20240229`) from being read as a version. Fable and Mythos are also recognised as families now, with their own chart colour, instead of falling through to the raw model id.
+- **Opus 5 usage was costed at $15/$75 instead of $5/$25** - `getPricingForModel()` (in `dataProvider.ts` and `database.ts`) matched the `opus_new` tier on the substrings `4-5`/`4-6`/`4-7`/`4-8`. None of those appear in `claude-opus-5`, so it fell through to `opus_legacy` and every Opus 5 token was billed at the Claude 3 Opus rate - a 3x overstatement of cost. The tier now also matches `opus-5` explicitly; a bare `5` is not used because it would collide with `4-5`.
+- **Unrecognised Opus model IDs defaulted to Claude 3 Opus rates** - The JSON-keyed lookup shared by `scan-today.js`, `backfill-jsonl.js`, and `backfillManager.ts` fell back to `claude-3-opus-20240229` ($15/$75) for any `opus` ID without an exact table entry, which is what carried the Opus 5 error into today's live stats. Every legacy Opus already has an explicit entry, so an unmatched ID is far more likely to be a newly released model; the fallback is now the current Opus tier ($5/$25).
+
+### Changed
+- **Sonnet 5 $2/$10 is now the standard price** - Anthropic has confirmed that the rate announced as introductory pricing through 2026-08-31 is now standard, and the increase to $3/$15 scheduled for 2026-09-01 will not happen. This supersedes the note in 1.1.14: the `sonnet_5` tier and its `sonnet-5` branch are permanent and should not be removed. Dated comments in `dataProvider.ts` and `database.ts` updated accordingly.
+
 ## [1.1.14] - 2026-07-08
 
 ### Added
