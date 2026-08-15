@@ -2,7 +2,10 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
-## [1.1.15] - 2026-08-14
+## [1.1.16] - 2026-08-15
+
+Everything below shipped as 1.1.16. Version 1.1.15 was uploaded, failed the marketplace virus check, and is permanently consumed: the Marketplace refuses a re-upload with "The version 1.1.15 already exists and cannot be modified", even though the version was never published and sits in an Error state. A failed verification burns the version number, so a rejected upload always needs a version bump before retrying, not a corrected rebuild under the same number.
+
 
 ### Added
 - **"Claude Analytics: Scan History (Keep Existing)" command** - Runs the JSONL backfill and merges the results, never truncating. This is the same operation the first-run "Scan History" prompt offers, but that prompt fires once per install and can never be shown again, so the only reachable backfill afterwards was "Recalculate Historical Costs", which calls `truncateAllData()` first. Claude Code prunes old session files, so on any install older than that retention window a truncate-and-rebuild silently destroys history that survives nowhere but the database. This command is what fills Request Types and Longest Session, whose tables (`work_classification_daily`, `sessions`) are written only by the backfill.
