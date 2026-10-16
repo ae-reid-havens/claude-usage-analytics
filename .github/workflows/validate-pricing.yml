@@ -25,3 +25,18 @@ jobs:
                   and (.output | type == "number" and . > 0)
                   and (.output >= .input))
           ' modelPricing.json
+      - name: Check current models have explicit entries
+        run: |
+          # Each current model ID must be its own key at its own rates, so the
+          # JSON-keyed lookup never sends it to an older tier or a family fallback.
+          check() {
+            jq -e --arg id "$1" --argjson i "$2" --argjson o "$3" \
+              '.[$id] == {"input": $i, "output": $o}' modelPricing.json > /dev/null \
+              || { echo "::error::$1 missing or not at \$$2/\$$3"; exit 1; }
+            echo "ok $1 \$$2/\$$3"
+          }
+          check claude-fable-5-1 10 50
+          check claude-mythos-5-1 10 50
+          check claude-opus-5-5 4 20
+          check claude-sonnet-5-5 2 10
+          check claude-haiku-5-5 0.1 0.5
