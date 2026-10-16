@@ -1,6 +1,6 @@
 # Claude Usage Analytics
 
-![Version](https://img.shields.io/badge/version-1.1.14-blue)
+![Version](https://img.shields.io/badge/version-1.1.17-blue)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.95%2B-007ACC)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
@@ -280,7 +280,7 @@ code --install-extension analyticendeavors.claude-usage-analytics
 Download the latest `.vsix` from the [Releases](https://github.com/AnalyticEndeavorsUser/claude-usage-analytics/releases) page and install manually:
 
 ```bash
-code --install-extension claude-usage-analytics-1.1.14.vsix
+code --install-extension claude-usage-analytics-1.1.17.vsix
 ```
 
 ---
@@ -380,16 +380,20 @@ Ensure Claude Code CLI is installed and you've used it at least once. The extens
 
 ### How accurate are the cost calculations?
 Costs use model-specific pricing from [modelPricing.json](modelPricing.json):
+- **Claude Fable 5.1 / Mythos 5.1**: $10/1M input, $50/1M output, $12.50/1M cache write, $0.25/1M cache read
 - **Claude Fable 5 / Mythos 5**: $10/1M input, $50/1M output, $12.50/1M cache write, $1.00/1M cache read
+- **Claude Opus 5.5**: $4/1M input, $20/1M output, $5/1M cache write, $0.20/1M cache read
+- **Claude Opus 5**: $5/1M input, $25/1M output, $6.25/1M cache write, $0.50/1M cache read
 - **Claude Opus 4.8 / 4.7 / 4.6 / 4.5**: $5/1M input, $25/1M output, $6.25/1M cache write, $0.50/1M cache read
 - **Claude Opus 4.1 / 4 / 3**: $15/1M input, $75/1M output, $18.75/1M cache write, $1.50/1M cache read
-- **Claude Sonnet 5**: $2/1M input, $10/1M output, $2.50/1M cache write, $0.20/1M cache read (introductory pricing through 2026-08-31; $3/$15 thereafter)
+- **Claude Sonnet 5.5 / Sonnet 5**: $2/1M input, $10/1M output, $2.50/1M cache write, $0.20/1M cache read
 - **Claude Sonnet 4.6 and earlier**: $3/1M input, $15/1M output, $3.75/1M cache write, $0.30/1M cache read
+- **Claude Haiku 5.5**: $0.10/1M input, $0.50/1M output, $0.125/1M cache write, $0.01/1M cache read (prompts up to 100K tokens; Anthropic charges $0.50/$2.50 above that, which the extension does not model)
 - **Claude Haiku 4.5**: $1/1M input, $5/1M output, $1.25/1M cache write, $0.10/1M cache read
 - **Claude Haiku 3.5**: $0.80/1M input, $4/1M output, $1/1M cache write, $0.08/1M cache read
 - **Claude Haiku 3**: $0.25/1M input, $1.25/1M output
 
-> [modelPricing.json](modelPricing.json) stores the base input/output rates; cache rates are derived from the input rate (1.25x for cache writes, 0.1x for cache reads).
+> [modelPricing.json](modelPricing.json) stores the base input/output rates; cache rates are derived from the input rate (1.25x for cache writes, 0.1x for cache reads), except Fable 5.1 / Mythos 5.1 (0.025x cache reads) and Opus 5.5 (0.05x cache reads), whose tiers carry their own cache rates.
 
 Today's cost is calculated in real-time from conversation files for maximum accuracy.
 
@@ -451,6 +455,9 @@ This extension is free and always will be. Source code is not publicly distribut
 ## Changelog
 
 Full release history is in [CHANGELOG.md](CHANGELOG.md). Latest highlights:
+
+### v1.1.17 (2026-10-16)
+- **Pricing for Claude Fable 5.1, Mythos 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5** added (verified against Anthropic docs), each matched ahead of the older tier its ID would otherwise fall into. Haiku 5.5 uses its base rate for every request; its higher rate above 100K-token prompts is not modelled.
 
 ### v1.1.14 (2026-07-08)
 - **Claude Sonnet 5 pricing** added at $2/$10 per MTok (introductory pricing through 2026-08-31; $3/$15 thereafter), matched ahead of the generic Sonnet tier so it isn't overcosted at $3/$15.
