@@ -2,6 +2,19 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
+## [1.1.17] - 2026-10-16
+
+### Added
+- **Claude Fable 5.1 / Mythos 5.1 pricing** - Added `claude-fable-5-1` and `claude-mythos-5-1` at $10/$50 per MTok (verified against Anthropic pricing docs). Cache reads on these two are $0.25/MTok (0.025x input), a quarter of Fable 5's $1.00, so they need their own `fable_5_1` tier in `getPricingForModel()` (in `dataProvider.ts` and `database.ts`), checked before the `fable-5` / `mythos-5` branch that would otherwise match them. 5-minute cache writes are $12.50/MTok, same as Fable 5.
+- **Claude Opus 5.5 pricing** - Added `claude-opus-5-5` at $4/$20 per MTok, with $5.00/MTok 5-minute cache writes and $0.20/MTok cache reads (0.05x input). Without a dedicated `opus_5_5` tier checked before the `opus-5` match, `claude-opus-5-5` contains `opus-5` and is costed at the Opus 5 rate of $5/$25, a 25% overstatement (2.5x on cache reads).
+- **Claude Sonnet 5.5 pricing** - Added `claude-sonnet-5-5` at $2/$10 per MTok, with $2.50/MTok cache writes and $0.20/MTok cache reads. These are identical to Sonnet 5, so the `sonnet-5` branch already prices it correctly; a `sonnet-5-5` branch mapped to the same `sonnet_5` tier is added only to make the match explicit.
+- **Claude Haiku 5.5 pricing** - Added `claude-haiku-5-5` at $0.10/$0.50 per MTok, with $0.125/MTok cache writes and $0.01/MTok cache reads. Needs a `haiku_5_5` tier checked before the generic `haiku` branch, which would otherwise cost it at a Haiku 4.5 or older rate (10x or more).
+- **CI check for current model entries** - The pricing workflow now fails if any of the five IDs above is missing from `modelPricing.json` or carries the wrong rate.
+
+### Known gap
+- **Haiku 5.5 long-prompt tier is not modelled.** Anthropic prices Haiku 5.5 at $0.10/$0.50 per MTok when the prompt is 100K tokens or fewer and $0.50/$2.50 above that. The extension prices by model, not by prompt length, so every Haiku 5.5 request is costed at the base tier and requests over 100K tokens are undercosted by 5x.
+- **1-hour cache writes still use the 5-minute rate.** Fable 5.1 and Mythos 5.1 charge $20/MTok and Opus 5.5 $8/MTok for 1-hour cache writes; as with every other model, the extension applies the 5-minute rate to all cache writes.
+
 ## [1.1.16] - 2026-08-15
 
 Everything below shipped as 1.1.16. Version 1.1.15 was uploaded, failed the marketplace virus check, and is permanently consumed: the Marketplace refuses a re-upload with "The version 1.1.15 already exists and cannot be modified", even though the version was never published and sits in an Error state. A failed verification burns the version number, so a rejected upload always needs a version bump before retrying, not a corrected rebuild under the same number.
