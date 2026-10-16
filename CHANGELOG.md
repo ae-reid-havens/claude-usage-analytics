@@ -2,6 +2,16 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
+## [1.1.18] - 2026-10-16
+
+### Changed
+- **One pricing table for the whole extension** - `modelPricing.json` now holds all four rates (input, output, 5-minute cache write, cache read) for every model, and `dataProvider.ts`, `database.ts`, `backfillManager.ts`, `scan-today.js` and `backfill-jsonl.js` all price tokens through a single `pricing.ts` module. The rates used to live in five copies in two different shapes, which is why 1.1.17 needed two fixes before it could ship. Adding or repricing a model is now a JSON edit only. Every model ID in the development database prices the same before and after ($60,247.41 all-time either way).
+- **Unrecognised model IDs are priced as the newest model of their family** - An unknown Opus ID used to be costed at the Claude 3 Opus rate ($15/$75) on the dashboard and at the Opus 5 rate on the live scan, and an unknown Haiku ID at Haiku 4.5 or Haiku 3.5 rates depending on the path. Every path now uses the first entry of the family in `modelPricing.json`, which is kept newest first. That includes a point release the table does not list yet: `claude-opus-5-7` is priced as Opus 5.5, not as the Opus 5 entry its ID starts with.
+
+### Fixed
+- **Undated and Vertex AI model IDs on the live scan and backfill** - `claude-opus-4-0`, `claude-3-opus-latest` and Vertex AI IDs such as `claude-opus-4@20250514` were costed at $5/$25 by the JSON-keyed lookup instead of $15/$75. The dashboard tiers already priced them correctly.
+- **Cache savings estimate assumed 0.1x cache reads** - The backfill's cache efficiency figure costed cache reads at 10% of the input rate for every model, which understated the savings on Fable 5.1, Mythos 5.1 and Opus 5.5. It now uses each model's own cache read rate.
+
 ## [1.1.17] - 2026-10-16
 
 ### Added

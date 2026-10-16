@@ -1,6 +1,6 @@
 # Claude Usage Analytics
 
-![Version](https://img.shields.io/badge/version-1.1.17-blue)
+![Version](https://img.shields.io/badge/version-1.1.18-blue)
 ![VS Code](https://img.shields.io/badge/VS%20Code-1.95%2B-007ACC)
 ![License](https://img.shields.io/badge/license-MIT-green)
 ![Platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
@@ -280,7 +280,7 @@ code --install-extension analyticendeavors.claude-usage-analytics
 Download the latest `.vsix` from the [Releases](https://github.com/AnalyticEndeavorsUser/claude-usage-analytics/releases) page and install manually:
 
 ```bash
-code --install-extension claude-usage-analytics-1.1.17.vsix
+code --install-extension claude-usage-analytics-1.1.18.vsix
 ```
 
 ---
@@ -393,7 +393,7 @@ Costs use model-specific pricing from [modelPricing.json](modelPricing.json):
 - **Claude Haiku 3.5**: $0.80/1M input, $4/1M output, $1/1M cache write, $0.08/1M cache read
 - **Claude Haiku 3**: $0.25/1M input, $1.25/1M output
 
-> [modelPricing.json](modelPricing.json) stores the base input/output rates; cache rates are derived from the input rate (1.25x for cache writes, 0.1x for cache reads), except Fable 5.1 / Mythos 5.1 (0.025x cache reads) and Opus 5.5 (0.05x cache reads), whose tiers carry their own cache rates.
+> [modelPricing.json](modelPricing.json) holds every rate the extension uses: input, output, 5-minute cache write and cache read for each model. A model ID the table does not know yet is priced as the newest model of its family.
 
 Today's cost is calculated in real-time from conversation files for maximum accuracy.
 
@@ -455,6 +455,12 @@ This extension is free and always will be. Source code is not publicly distribut
 ## Changelog
 
 Full release history is in [CHANGELOG.md](CHANGELOG.md). Latest highlights:
+
+### v1.1.18 (2026-10-16)
+- **One pricing table for the whole extension**
+- **Unrecognised model IDs are priced as the newest model of their family**
+- **Undated and Vertex AI model IDs on the live scan and backfill**
+- **Cache savings estimate assumed 0.1x cache reads**
 
 ### v1.1.17 (2026-10-16)
 - **Pricing for Claude Fable 5.1, Mythos 5.1, Opus 5.5, Sonnet 5.5 and Haiku 5.5** added (verified against Anthropic docs), each matched ahead of the older tier its ID would otherwise fall into. Haiku 5.5 uses its base rate for every request; its higher rate above 100K-token prompts is not modelled.

@@ -11,32 +11,41 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 5
     steps:
       - uses: actions/checkout@v4
       - name: Validate modelPricing.json
         run: |
+          set -euo pipefail
           # Valid JSON with a "default" fallback entry
           jq -e 'has("default")' modelPricing.json
-          # Every entry has positive numeric input/output rates and output >= input
+          # Every entry has four positive numeric rates: output >= input,
+          # cache read below input, cache write at or above input
           jq -e '
             to_entries
             | all(.value
                 | (.input | type == "number" and . > 0)
                   and (.output | type == "number" and . > 0)
-                  and (.output >= .input))
+                  and (.cacheRead | type == "number" and . > 0)
+                  and (.cacheWrite | type == "number" and . > 0)
+                  and (.output >= .input)
+                  and (.cacheRead < .input)
+                  and (.cacheWrite >= .input))
           ' modelPricing.json
       - name: Check current models have explicit entries
         run: |
+          set -euo pipefail
           # Each current model ID must be its own key at its own rates, so the
-          # JSON-keyed lookup never sends it to an older tier or a family fallback.
+          # lookup never sends it to an older entry or a family fallback.
+          # Arguments: id, input, output, cache read, cache write ($ per MTok).
           check() {
-            jq -e --arg id "$1" --argjson i "$2" --argjson o "$3" \
-              '.[$id] == {"input": $i, "output": $o}' modelPricing.json > /dev/null \
-              || { echo "::error::$1 missing or not at \$$2/\$$3"; exit 1; }
-            echo "ok $1 \$$2/\$$3"
+            jq -e --arg id "$1" --argjson i "$2" --argjson o "$3" --argjson r "$4" --argjson w "$5" \
+              '.[$id] | [.input, .output, .cacheRead, .cacheWrite] == [$i, $o, $r, $w]' modelPricing.json > /dev/null \
+              || { echo "::error::$1 missing or not at \$$2/\$$3, cache read \$$4, cache write \$$5"; exit 1; }
+            echo "ok $1 \$$2/\$$3 read \$$4 write \$$5"
           }
-          check claude-fable-5-1 10 50
-          check claude-mythos-5-1 10 50
-          check claude-opus-5-5 4 20
-          check claude-sonnet-5-5 2 10
-          check claude-haiku-5-5 0.1 0.5
+          check claude-fable-5-1 10 50 0.25 12.5
+          check claude-mythos-5-1 10 50 0.25 12.5
+          check claude-opus-5-5 4 20 0.2 5
+          check claude-sonnet-5-5 2 10 0.2 2.5
+          check claude-haiku-5-5 0.1 0.5 0.01 0.125
