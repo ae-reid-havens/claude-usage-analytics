@@ -2,6 +2,11 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
+## [1.1.19] - 2026-10-16
+
+### Changed
+- **Claude Sonnet 5.5 pricing** - `claude-sonnet-5-5` now matches Anthropic's published pricing on 2026-10-16: cache read $0.20 to $0.10 per MTok.
+
 ## [1.1.18] - 2026-10-16
 
 ### Changed
