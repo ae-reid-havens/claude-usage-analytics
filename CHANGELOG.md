@@ -11,6 +11,10 @@ All notable changes to the Claude Usage Analytics extension will be documented i
 - **Claude Haiku 5.5 pricing** - Added `claude-haiku-5-5` at $0.10/$0.50 per MTok, with $0.125/MTok cache writes and $0.01/MTok cache reads. Needs a `haiku_5_5` tier checked before the generic `haiku` branch, which would otherwise cost it at a Haiku 4.5 or older rate (10x or more).
 - **CI check for current model entries** - The pricing workflow now fails if any of the five IDs above is missing from `modelPricing.json` or carries the wrong rate.
 
+### Fixed
+- **JSON-keyed pricing would have costed Opus 5 at the Opus 5.5 rate** - The lookup shared by `scan-today.js`, `backfill-jsonl.js`, and `backfillManager.ts` accepted a key when the model ID contained it or when the key contained the ID, in one pass. With `claude-opus-5-5` listed before `claude-opus-5`, the ID `claude-opus-5` matched the longer key first and would have been billed at $4/$20 instead of $5/$25. Keys contained in the ID are now matched before IDs contained in a key. Caught before release; no shipped version was affected.
+- **JSON-keyed pricing derived every cache read at 0.1x input** - The same three files computed cache reads as 10% of the input rate, which costs Fable 5.1 and Mythos 5.1 cache reads at $1.00 instead of $0.25 and Opus 5.5 at $0.40 instead of $0.20. The multiplier is now 0.025x for Fable 5.1 / Mythos 5.1 and 0.05x for Opus 5.5, matching the tiers in `dataProvider.ts` and `database.ts`.
+
 ### Known gap
 - **Haiku 5.5 long-prompt tier is not modelled.** Anthropic prices Haiku 5.5 at $0.10/$0.50 per MTok when the prompt is 100K tokens or fewer and $0.50/$2.50 above that. The extension prices by model, not by prompt length, so every Haiku 5.5 request is costed at the base tier and requests over 100K tokens are undercosted by 5x.
 - **1-hour cache writes still use the 5-minute rate.** Fable 5.1 and Mythos 5.1 charge $20/MTok and Opus 5.5 $8/MTok for 1-hour cache writes; as with every other model, the extension applies the 5-minute rate to all cache writes.
