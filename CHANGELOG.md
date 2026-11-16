@@ -2,6 +2,11 @@
 
 All notable changes to the Claude Usage Analytics extension will be documented in this file.
 
+## [1.1.20] - 2026-11-16
+
+### Added
+- **Claude Fable 5.2 pricing** - Added `claude-fable-5-2` at $8/$40 per MTok, with a $10 5-minute cache write and a $0.20 cache read, from Anthropic's published pricing on 2026-11-16.
+
 ## [1.1.19] - 2026-10-16
 
 ### Changed
